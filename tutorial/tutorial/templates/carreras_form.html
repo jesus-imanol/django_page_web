@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Styles aquí */
+        /* He quitado el contenido del estilo por simplicidad */
+    </style>
+    <title>Hola desde Cursor</title>
+</head>
+<body>
+
+<div class="loader"></div>
+
+<div class="container">
+    <div class="heading">Carreras</div>
+    <form class="form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="btn-container">
+            <button class="btn">Submit</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
+{% endblock content %}
