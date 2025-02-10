@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Elements - Industrious by TEMPLATED</title>
+    <meta charset="utf-8">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/forms.css' %}">
+</head>
+<body class="is-preload">
+
+<!-- Header -->
+<header id="header">
+    <a class="logo" href="{% url 'index' %}">Models</a>
+    <nav><a href="#menu">Menu</a></nav>
+</header>
+
+<!-- Nav -->
+<nav id="menu">
+    <ul class="links">
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'elements' %}">Elements</a></li>
+        <li><a href="{% url 'generic' %}">Generic</a></li>
+    </ul>
+</nav>
+
+<!-- Heading -->
+<div id="heading">
+    <h1>Adriana Lima</h1>
+</div>
+
+<!-- Main -->
+<section id="main" class="wrapper">
+    <div class="inner">
+        <div class="content">
+            <section>
+                <h2>Sobre Adriana Lima</h2>
+                <p>Adriana Lima es una de las modelos más reconocidas internacionalmente, conocida por su trabajo con Victoria's Secret, donde fue uno de los ángeles más icónicos de la marca. Nacida el 12 de junio de 1981 en Salvador, Brasil, comenzó su carrera a una edad temprana y rápidamente se convirtió en un referente de la industria de la moda.</p>
+                <img src="https://pbs.twimg.com/profile_banners/214791922/1363812393/1500x500" alt="Adriana Lima" style="width: 100%; max-width: 600px;">
+
+                <h3>Logros y Carrera</h3>
+                <p>Con más de 20 años de carrera, Adriana Lima ha sido portada de numerosas revistas de renombre, ha desfilado en las pasarelas más importantes del mundo y ha trabajado con marcas de lujo como Maybelline, Louis Vuitton, y Versace. Además de su trabajo como modelo, ha incursionado en la actuación y ha sido embajadora de varias campañas benéficas.</p>
+
+                <h3>Curiosidades</h3>
+                <ul>
+                    <li>Fue el ángel más longevo de Victoria's Secret, trabajando con la marca desde 1999 hasta su retiro en 2018.</li>
+                    <li>Ha sido considerada una de las mujeres más bellas del mundo en múltiples ocasiones.</li>
+                    <li>Adriana es conocida por su dedicación al ejercicio físico y su estilo de vida saludable.</li>
+                </ul>
+
+                <h3>Síguela en Redes Sociales</h3>
+                <ul class="alt">
+                    <li><a href="https://twitter.com/AdrianaLima" target="_blank"><i class="icon fa-twitter">&nbsp;</i>Twitter</a></li>
+                    <li><a href="https://www.facebook.com/AdrianaLima" target="_blank"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
+                    <li><a href="https://www.instagram.com/adrianalima" target="_blank"><i class="icon fa-instagram">&nbsp;</i>Instagram</a></li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</section>
+
+<!-- Scripts -->
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/browser.min.js' %}"></script>
+<script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+<script src="{% static 'assets/js/util.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+</html>
+    <h2>Formulario para Agregar Modelos, Agencias y Relacionarlos</h2>
+
+    <!-- Formulario para Modelo -->
+    <h3>Agregar Modelo</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ modelo_form.as_p }}  <!-- Formulario para Modelo -->
+        <button type="submit">Guardar Modelo</button>
+    </form>
+  <!-- Formulario para Modelo -->
+  <h3>Agregar Logro</h3>
+  <form method="post">
+	  {% csrf_token %}
+	  {{ logro_form.as_p }}  <!-- Formulario para Modelo -->
+	  <button type="submit">Guardar Modelo</button>
+  </form>
+    <!-- Formulario para Agencia -->
+    <h3>Agregar Agencia</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ agencia_form.as_p }}  <!-- Formulario para Agencia -->
+        <button type="submit">Guardar Agencia</button>
+    </form>
+
+    <!-- Formulario para Relacionar Modelo y Agencia -->
+    <h3>Relacionar Modelo con Agencia</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ modelo_agencia_form.as_p }}  <!-- Formulario para ModeloAgencia -->
+        <button type="submit">Relacionar</button>
+    </form>
+
+
+	{% for modelo in modelos %}
+    <p>{{ modelo.nombre }}
+        <!-- Formulario para eliminar el modelo -->
+        <form action="{% url 'delete_modelo' modelo.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Eliminar</button>
+        </form>
+        <a href="{% url 'edit_modelo' modelo.id %}">Editar</a>
+    </p>
+{% endfor %}
+
+
+{% endblock %}

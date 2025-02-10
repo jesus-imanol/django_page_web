@@ -1,20 +1,18 @@
 <html>
     <head>
         {% load static %}
-        <title>Hola</title>
+        <title>Page web</title>
         <style>
         </style>
-        <link rel="stylesheet" type="text/css" href="{% static 'home.css' %}">
     </head>
 
     <body>
         <header>
-            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'index' %}">Home</a>
             <a href="{% url 'about' %}">About</a>
         </header>
         {% block content %}
         {% endblock content %}
 
-        <img src="{% static 'tu_pintaste_eso.jpg' %}" alt="Name">
     </body>
 </html>
