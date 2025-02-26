@@ -13,6 +13,115 @@
     <meta name="keywords" content="">
     <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
 	<link rel="stylesheet" href="{% static 'assets/css/forms.css' %}">
+    <style>
+        .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  .card-header {
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  .card-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.25rem;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+
+  .card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .card-info {
+    margin: 1rem 0;
+  }
+
+  .card-info p {
+    margin: 0.5rem 0;
+    color: #666;
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+
+  .btn-edit {
+    background-color: #6c757d;
+    color: white;
+  }
+
+  .btn:hover {
+    opacity: 0.9;
+  }
+
+  .add-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    border: 2px dashed #dee2e6;
+    text-align: center;
+  }
+
+  .add-card-icon {
+    font-size: 2rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+  }
+  img {
+    max-width: 100%;
+    height: 30%;
+    width: 200px;
+    object-fit: cover;
+  }
+    </style>
 </head>
 <body class="is-preload">
 
@@ -27,7 +136,9 @@
     <ul class="links">
         <li><a href="{% url 'index' %}">Home</a></li>
         <li><a href="{% url 'elements' %}">Elements</a></li>
-        <li><a href="{% url 'generic' %}">Generic</a></li>
+        <li><a href="{% url 'addmodel' %}">Agregar modelo</a></li>
+        <li><a href="{% url 'addlogro' %}">Agregar logro</a></li>
+        <li><a href="{% url 'addagencia' %}">Agregar agencia</a></li>
     </ul>
 </nav>
 
@@ -74,29 +185,7 @@
 <script src="{% static 'assets/js/main.js' %}"></script>
 </body>
 </html>
-    <h2>Formulario para Agregar Modelos, Agencias y Relacionarlos</h2>
-
-    <!-- Formulario para Modelo -->
-    <h3>Agregar Modelo</h3>
-    <form method="post">
-        {% csrf_token %}
-        {{ modelo_form.as_p }}  <!-- Formulario para Modelo -->
-        <button type="submit">Guardar Modelo</button>
-    </form>
-  <!-- Formulario para Modelo -->
-  <h3>Agregar Logro</h3>
-  <form method="post">
-	  {% csrf_token %}
-	  {{ logro_form.as_p }}  <!-- Formulario para Modelo -->
-	  <button type="submit">Guardar Modelo</button>
-  </form>
-    <!-- Formulario para Agencia -->
-    <h3>Agregar Agencia</h3>
-    <form method="post">
-        {% csrf_token %}
-        {{ agencia_form.as_p }}  <!-- Formulario para Agencia -->
-        <button type="submit">Guardar Agencia</button>
-    </form>
+    <h2>Relacionarlos</h2>
 
     <!-- Formulario para Relacionar Modelo y Agencia -->
     <h3>Relacionar Modelo con Agencia</h3>
@@ -107,16 +196,62 @@
     </form>
 
 
-	{% for modelo in modelos %}
-    <p>{{ modelo.nombre }}
-        <!-- Formulario para eliminar el modelo -->
-        <form action="{% url 'delete_modelo' modelo.id %}" method="post" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit">Eliminar</button>
-        </form>
-        <a href="{% url 'edit_modelo' modelo.id %}">Editar</a>
-    </p>
-{% endfor %}
+    <div class="cards-container">
+        {% for modelo in modelos %}
+        <div class="card">
+          <div class="card-header">
+            <h3>{{ modelo.nombre }}</h3>
+            <h4>{{ modelo.apellido }}</h4>
+          </div>
+          <div class="card-content">
+            {% if modelo.imagen %}
+              <img src="{{ modelo.imagen.url }}" alt="{{ modelo.nombre }}" class="card-image">
+            {% else %}
+              <img src="https://img.freepik.com/vector-premium/modelo-femenino-adulto-dibujos-animados-elegante-sobre-fondo-blanco_1324815-19838.jpg" alt="Placeholder" class="card-image">
+            {% endif %}
+            <div class="card-actions">
+              <form action="{% url 'delete_modelo' modelo.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+              </form>
+              <a href="{% url 'edit_modelo' modelo.id %}" class="btn btn-edit">Editar</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        
 
+    <div class="cards-container">
+        {% for modelo in modelo_agencia %}
+        <div class="card">
+          <div class="card-header">
+            <h3>{{ modelo.modelo }} </h3>
+            <span>Relacionado con la agencia:</span>
+            <h4>{{ modelo.agencia }}</h4>
+          </div>
+        </div>
+        {% endfor %}
+        <div class="cards-container">
+            {% for modelo in logros %}
+            <div class="card">
+              <div class="card-header">
+                <h3>{{ modelo.titulo }} </h3>
+                <span>Modelo:</span>
+                <h4>{{ modelo.modelo }}</h4>
+              </div>
+            </div>
+            {% endfor %}
+    
+            <div class="cards-container">
+                {% for modelo in agencias %}
+                <div class="card">
+                  <div class="card-header">
+                    <h3>{{ modelo.nombre_agencia }} </h3>
+                    <span>Pais:</span>
+                    <h4>{{ modelo.pais }}</h4>
+                  </div>
+                </div>
+                {% endfor %}
+        
 
 {% endblock %}

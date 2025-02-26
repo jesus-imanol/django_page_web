@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from tutorial.view import HomePageView,delete_modelo,GenericView,ElementsView,AboutPageView,BasePageView,CarrerasCreateView, IndexView
+from tutorial.view import HomePageView,AddAgenciaView,AddLogroView,delete_modelo,GenericView,ElementsView,AddModelView,AboutPageView,BasePageView,CarrerasCreateView, IndexView
 from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +29,8 @@ urlpatterns = [
     path('carrera/crear',CarrerasCreateView.as_view(), name= 'carrera_crear'),
     path('login/',auth_views.LoginView.as_view(template_name = 'login.html'), name= 'login'),
     path('logout/',auth_views.LogoutView.as_view(template_name = 'logout.html'), name= 'logout'),
+    path('addmodel/', AddModelView.as_view(), name='addmodel'),
+    path('addlogro', AddLogroView.as_view(template_name = 'addlogro.html'), name='addlogro'),
+    path('addagencia', AddAgenciaView.as_view(template_name = 'addagencia.html'), name='addagencia'),
 
 ]

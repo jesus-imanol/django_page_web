@@ -22,7 +22,11 @@
         {{ form.as_p }}
 
         <div class="btn-container">
+            {% if has_perm %}
             <button class="btn">Submit</button>
+            {% else %}
+            <button class="btn" disabled>Submit</button>
+            {% endif %}
         </div>
     </form>
 </div>

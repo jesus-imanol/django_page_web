@@ -9,6 +9,17 @@
 </head> 
 <body class="is-preload"> 
   <!-- Header --> 
+  <script>
+    console.log('ws://' + window.location.host + '/ws/test/ \n');
+    const socket = new WebSocket('ws://' + window.location.host + '/ws/test/');
+
+    socket.onmessage = function(event) {
+      const data = JSON.parse(event.data);
+      data.message.forEach(element => {
+        console.log('ws://' + window.location.host +  '/ws/test/ \n' + element.nombre);
+      });
+    }
+  </script>
   <header id="header">
     <a class="logo" href="index.html">Victoria's Secret</a> 
     <nav><a href="#menu">Menu</a></nav>
@@ -19,7 +30,9 @@
     <ul class="links">
       <li><a href="{% url 'index' %}">Home</a></li> 
       <li><a href="{% url 'elements' %}">Elements</a></li> 
-      <li><a href="{% url 'generic' %}">Generic</a></li> 
+      <li><a href="{% url 'addmodel' %}">Agregar modelo</a></li>
+      <li><a href="{% url 'addlogro' %}">Agregar logro</a></li>
+      <li><a href="{% url 'addagencia' %}">Agregar agencia</a></li>
     </ul>
   </nav>
 
